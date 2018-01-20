@@ -1,0 +1,78 @@
+
+1. Reliable, scalable and maintainable applications
+Latency - duration request is waiting vs response time - response that client sees
+Importance of percentiles vs average or mean
+
+2. Data models and Query languages
+Interconnectivity of data as a measure of usage for: document based db -> relational model -> graph model
+Blurring borders between models (Postgresql JSON, MongoDB joins)
+
+3. Storage and retrieval
+SSTables (Sorted String Tables) and building LSM-tree out of it
+LSM-Tree vs B-Trees
+
+4. Encoding and evolution
+Protobuff or Trift vs Avro (separated reader and writer schema)
+
+5. Distributed data
+Replication vs Partitioning (Logical)
+Version vector
+
+6. Partitioning
+Key-range partitioning vs hash partitioning (inefficient range queries but evenly distributed load), possible hybrid approach like compose-key
+Partitioning secondary index by document or globally (by term)
+
+7. Transactions
+Read Committed - no dirty reads and writes, do not protect against parallel counter incrementation id db
+Accepts: Nonrepetable read or read skew (seening changes done just after other tx commit) -> typical solution Snaphot isolation MVCC
+Preventing Lost Updates
+Atomic write operations (cursor stability - implicit locking done by db)
+Explicit locking (select for update)
+Write skew - generalization of lost update and can occur if two transactions read the same objects and then update some of those objects (problem of at least one doctor on duty or booking system to avoid double-booking - not safe under snapshot isolation)
+If possible composed constraints
+Locking of every involved element
+Materializing conflicts -> changing to be able to get single lock
+Serializability can be done by:
+Literally executing tx in serial order (VoldemortDB, Datomic)
+Two-phase locking 2PL (for long time only option)
+Optimistic concurrency control techniques like serializable snapshot isolation
+
+8.  Trouble with distributed systems
+Unreliable network:
+Internet as an example of building reliable system from unreliable components.
+TCP vs UDP, UDP does not perform flow control and does not retransmit packets. Effective in situation when delayed data is worthless
+Network delay as consequence that internet shares bandwidth dynamically - dynamic resource partitioning vs synchronous networks like ISDN
+Network timeout is very difficult to predict/calculate - experimenting. Some systems like Akka and Cassandra use Phi Accural failure detector to adjust ‘jitter’ timeout in the network
+Unreliable Clocks:
+To synchronize time servers often use Network Time Protocol NTP with all it’s lags etc.
+Time-of-Day Clocks -> System.currentTimeMillis() vs monotonic clocks System.nanoTime(). Time of day is synchronized with NTP and can be set back when monotonic is guarantee to increase but is based on local reference point like server restart. For time measure use System.nanoTime()
+Quartz clocks have significant ‘drift’. Google assumes 17 sec per day, 6ms for 30 seconds
+NTP sync can only be as good as network delay, congestion etc. + virtualization, garbage collection etc.
+Timestamp for ordering can be problematic
+
+9. Consistency and consensus
+Linearizability vs Serialization. L. is recency guarantee on reads and writes - does not group operations into transactions so do not prevent problems like write skew unless one add measures like materializing conflicts. L. system behaves al there is only single copy of data and all tx are atomic. Essence of S. is to have single copy per write.
+L. is used in locking and leader election, constraints and uniqueness guarantees
+L. can be implemented for single-leader replication and consensus but by design can not for multi-leader replication and leaderless replication (Dynamo style, Cassandra)
+CAP theorem (Consistency-Availability-Partitioning) if we have network partition we can have consistency or availability but not both
+L. implies causality and is stronger than causal consistency. In many cases we are searching for causal consistency not full L.
+Lamport timestamp (counter, node ID) + information about generate value on every node and client -> introduce total ordering with causality vs. version vector which is targeted to detect concurrency
+In Total order broadcast order is fixed at the time message is delivered, this makes t.o.b stronger than timestamp ordering. T.O.B builds log where message is appended.
+Two-phase commit is an algorithm for achieving atomic tx commit across multiple nodes. 2PC is not 2Phase-Lock which is used to provide serializable isolation. 2PC introduces coordinator
+XA transactions (eXtended Architecture) is a standard for implementing 2PC across heterogeneous technologies like PostgreSQL, ActiveMQ etc)
+Distributed consensus (like Raft algorithm: leader-follower-consensus)
+ZooKeeper (etcd) provides atomic compare-and-set in network allowing failure detection, change notification etc but normally kind of data managed by ZooKeeper are slow changing (scale of minutes). ZooKeeper is not intended to store runtime state of application which may change thousand times per second (Apache BookKeeper can be used)
+
+10. Batch processing
+MapReduce is like Unix tools distributed across massive nodes
+HDFS (Hadoop Distributed File System) let treat file system of those nodes as single one
+MapReduce is very filesystem heavy, optimized for Google with very high fault tolerance because it was executed on VM’s as a process with low prio and could be killed
+Problems with MapReduce/Hadoop: materialization of all intermediate steps, non-trivial joins, not using full memory
+
+11. Stream processing
+AMQP/JMS- style brokers (RabbitMQ) vs Log-based message broker (Kafka)
+
+12. Future of data systems
+Throwing away sessionless client with db on server side
+Expressing dataflow as transformations
+Reaching integrity by end-to-end tokens, additional validation of data corruption or possibly ‘correcting’ transactions
