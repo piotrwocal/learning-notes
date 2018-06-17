@@ -1,0 +1,128 @@
+
+# 1: Static Factory Method instead of constructor
+
+	Define single, named, point to return object that can be cached, subclassed or dynamically created. Classes without public constructor cannot be instantiated (which can be desirable behaviour). Pay attention that SFM can be difficult to find by programmers - as help use unified naming from(), valueOf(), getInstance(), type (like list(), set()) etc.
+Classes without public constructor cannot be instantiated (which can be desirable behaviour). Pay attention that SFM can be difficult to find by programmers - as help use unified naming from(), valueOf(), getInstance(), type (like list(), set()) etc.
+SFM is not identical as Factory Method by GoF which uses subclassing for abstracting object creation. Different to Builder  as SFM can have parameters. SFM can take part in service provider (see: java.util.ServiceLoader) or Bridge pattern. (Bridge pattern separates by two inheritance lines abstractions from implementation like:
+Abstraction:   Shape > Circle,  Implementation: DrawingAPI > DrawingAPI1 > DrawingAPI2, where shape contains reference to implementation.
+
+# 2: Builder when faced with many constructor parameters
+  Solves problems with long params list for constructor and mutability. It's well suited for class hierarchies by use of parallel hierarchies of builders. Abstract classes have abstract builders with generic recursive type parameter <T extends Builder<T>> that along with T self() method is known as simulated self-type idiom.
+
+# 3: Enforce singleton property with private constructor or an enum type
+  Force singleton property with private constructor or preferably enum. In case of private constructor, if class implements serializable - then it must also implements readResolve() correctly. (All fields transient and return singleton instance). To prevent from reflection manipulation consider throwing exception from constructor when constructor is called for second instance.
+
+# 4: Enforce noninstantiability with private constructor
+	Use private constructor throwing exception. As side effect such solution would prevent subclassing.
+
+# 5: Prefer dependency injection to hardwiring resources
+	Static utility classes and singletons are inappropriate for services that those behaviour depends on underlying resources. Prefer using constructor injection.
+
+# 6: Avoid creating unnecessary objects
+  Special attention to autoboxing, regex, strings.
+
+# 7: Eliminate obsolete object references
+	Each time when class self ‘manages’ memory pay attention on memory leaks. Other cases are caches and listeners/callbacks.
+
+# 8: Avoid using finalizers
+	They are unpredictable, dangerous and often unnecessary. Java 9 deprecates them, replacing with cleaners. There is no guaranty finalizer will be ever executed (even then called System.gc etc). It should be enough to prevent object creation when throwing exception in constructor but this is not the case for finalizer. Finalizer have severe performance penalty. Instead of using finalizers consider using AutoClosable and try-with-resource.
+Finalizer may be considered valid for cases like additional safety net or/and native-peer (non java objects) with non critical resources. For critical close() method has to be used.
+For cleaners pay attention to use of lambda expressions as it can hold reference to the outer class implicitly when referencing outer class fields. This would prevent gc reclaiming causing leak.
+
+# 9: Prefer try-with-resources to try-finally
+	Proper try-finally with multiple resources needs nesting and gets quickly verbose. Try-finally solves this with closing resources in reversed order and intentionally suppressing exceptions from close() methods.
+
+# 10: Obey the general contract when overriding equals()
+	There is no way to extend instatinable class with value component and preserve equals() contract: symmetry, transitive, reflexive, consistent, false when compared with null; or violating Liskov principle.
+When comparing values pay attention to double and float with Float.compare() etc. because of NaN and -0.0 (see spec.) and use Object.compare() if null is an legitimate value.
+
+# 11: Always override hashCode() when you override equals()
+  One must override hashCode when overriding equals, providing reasonable distribution of hashcodes.
+
+# 12: Always override toString()
+  One should write meaningful toString() method on every class, especially value class. It can be documented and treated as toString-fromString protocol like for many JVM classes.
+
+# 13: Override clone() judiciously
+  In practice except for arrays one should never use close(), but copy constructor or copy factory (x.newInstance( X )). Clone is extra linguistic creation mechanism that needs to take care of proper copying of nested structures, blocks finals in class implementations, needs synchronization care etc.
+
+# 14: Consider implementing Comparable
+  Indicates that class has natural ordering. TreeSet, TreeMap and many utility classes from Collections and Arrays relay on comparable. Consider using Java 8 comparator support like Comparator.comparingInt().
+
+# 15: Minimize accessibility of classes and members
+  Protected is very ‘open’ accessibility as defines contract forever – don’t use it for testing, use default instead. Classes with public mutable fields are not generally thread-safe. Note that non-zero array is always mutable. Have a look at module system introduced in Java 9.
+
+# 16: In public classes, use accessor methods, not public fields
+  But for internal static classes it could be perfect case to use fields directly.
+
+# 17: Minimize mutability
+  Consider using internal companion class for frequently changing operations or public one like StringBuffer/StringBuilder. Don’t forget to override readObject/readResolve as serialization can be used as attack. In general classes should be immutable unless there is a very good reason to make them mutable.
+
+# 18: Favor composition over inheritance
+  When using composition consider using generic forwarding classes which implements interface but do not extend wrapped class.
+
+# 19: Design and document for inheritance or else prohibit it
+ Consider making important inner-workings methods protected. Never call overridable methods from constructor.
+
+# 20: Prefer interfaces to abstract classes
+  Interfaces enable safe functionality enhancement and with skeletal implementations like AbstractList etc. provide robust way to extend functionality.
+
+# 21: Design interfaces for posterity
+  Adding interface method to already published interfaced may make existing implementations compile but fail at runtime. Ex: added removeIf() from collections – fails on Apache SynchronizedCollection.
+
+# 22: Use interfaces only to define types
+  Avoid constant interfaces as they are everlasting commitment. Put const to classes or use enums. In corner cases (physical constants) prevent initialization of class.
+
+# 23: Prefer class hierarchies to tagged classes
+  Don’t use ‘flagged classes’ like Figure with Shape enum as a member variable – it’s verbose, error prone and inefficient.
+
+# 24: Favor static members classes over nonstatic
+  Don’t forget that Java support 4 types of nested classes: static, nested, anonymous, local.
+
+# 25: Limit source files to a single top-level classes
+  Never put multiple top level classes or interfaces into a single source file.
+
+# 26: Don’t use raw types
+  You lose type safety when you use a raw type such as List but not if you use a parameterized type such as List<Object>.
+List<Object> vs List – you lose type safety, List<Object> represents List of object of any type
+List<?> vs List – you can’t put any element other than null into List<?>, List<?> represents unknown type
+
+# 27: Eliminate unchecked warnings
+  Consider using @SuppressWarnings(“unchecked”) on the local variable level.
+
+# 28: Prefer list to array
+  Arrays are covariants – if Sub is a subtype of Super then Sub[] is subtype of Super[]
+  Generics are invariants: - for any two distinct T1 and T2, List<T1> is neither super or subtype of List<T2>
+
+# 29: Favor generic types
+  And consider bounded type parameters like: DelayQueue<E extends Delayed> implements BlockingQueue<E>
+
+# 30: Favor generic methods
+
+# 31: Use bounded wildcards to increase API flexibility
+  PECS - producer-extends, consumer-super; <? extends E> vs <? super E>
+  Ex: public static <T extends Comparable<? super T>> T max( List<? extends T> list ) {...}
+
+# 32: Combine generics and varargs judiciously
+    It is unsafe to manipulate or give another method access to varargs parameter array.
+ Can create so called 'heap pollution' as varargs are stored as Object[], is not possible to create in java: new T[] { ... })
+ For safe methods use @SafeVarargs annotation.
+
+# 33: Consider typesafe heterogenous containers
+  Normal use of generics resticts one to limited number of parameters per container. To get around it one can place parameter on a key rather than container like:
+    public <T> void putFavourite(Class<T> type, T instance);
+ calling it:
+    container.putFavourite( String.class, "some string");
+ We use fact that X.class is of type Class<X>.
+
+# 34: Use enums instead of int constants
+  Don't forget that enums are full fledged classes.
+
+# 35: Use instance fields instead of ordinals
+  Don't use ordinal() of enum - is meant for internal use.
+
+# 36: Use EnumSet instead of bit fields
+  Don't use bit fields for set of enums - use EnumSet
+
+# 37: Use EnumMap instead of ordinal indexing
+    
+
