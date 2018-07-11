@@ -137,6 +137,14 @@ List<?> vs List – you can’t put any element other than null into List<?>, Li
 
 # 41: Use marker interfaces to define types
 
+# 42: Prefer lambdas to anonymous classes
+    Prefer lambdas for short function snippet unless you have to create instance of non-functional interface
+    or you need reference to anonymouns-self reference (lambda self points to enclosing instance).
+
+
+
+
+
 
 
     
