@@ -141,6 +141,8 @@ List<?> vs List – you can’t put any element other than null into List<?>, Li
     Prefer lambdas for short function snippet unless you have to create instance of non-functional interface
     or you need reference to anonymouns-self reference (lambda self points to enclosing instance).
 
+# 43: Prefer method references to lambdas
+    If lambda gets longer consider refactor it to method.
 
 
 
