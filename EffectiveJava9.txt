@@ -144,7 +144,13 @@ List<?> vs List – you can’t put any element other than null into List<?>, Li
 # 43: Prefer method references to lambdas
     If lambda gets longer consider refactor it to method.
 
+# 44: Favor the use of standard functional interfaces
+    Check standard java.util.function package for standard interfaces considering adding new if
+        - it will be commonly used
+        - has strong contact associated with it
+        - would benefit from default methods
 
+# 45: Use streams judiously
 
 
 
