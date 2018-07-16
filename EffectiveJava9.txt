@@ -152,6 +152,9 @@ List<?> vs List – you can’t put any element other than null into List<?>, Li
 
 # 45: Use streams judiously
 
+# 46: Prefer side-effect-free functions in streams
+
+
 
 
 
