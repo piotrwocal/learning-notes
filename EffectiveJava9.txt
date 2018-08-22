@@ -138,11 +138,11 @@ List<?> vs List – you can’t put any element other than null into List<?>, Li
 # 41: Use marker interfaces to define types
 
 # 42: Prefer lambdas to anonymous classes
-    Prefer lambdas for short function snippet unless you have to create instance of non-functional interface
-    or you need reference to anonymouns-self reference (lambda self points to enclosing instance).
+    Prefer lambdas for short function snippet. Exception is when we want to extend Abstract classes,
+    create instance of non-functional interface or we need reference to anonymous-self reference (lambda self points to enclosing instance).
 
 # 43: Prefer method references to lambdas
-    If lambda gets longer consider refactor it to method.
+    If lambda gets longer consider refactor it to method especially when there are many arguments.
 
 # 44: Favor the use of standard functional interfaces
     Check standard java.util.function package for standard interfaces considering adding new if
@@ -150,9 +150,10 @@ List<?> vs List – you can’t put any element other than null into List<?>, Li
         - has strong contact associated with it
         - would benefit from default methods
 
-# 45: Use streams judiously
+# 45: Use streams judiciously
 
 # 46: Prefer side-effect-free functions in streams
+
 
 
 
