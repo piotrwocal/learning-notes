@@ -138,8 +138,10 @@ List<?> vs List – you can’t put any element other than null into List<?>, Li
 # 41: Use marker interfaces to define types
 
 # 42: Prefer lambdas to anonymous classes
-    Prefer lambdas for short function snippet. Exception is when we want to extend Abstract classes,
-    create instance of non-functional interface or we need reference to anonymous-self reference (lambda self points to enclosing instance).
+    Prefer lambdas for short function snippet. Exception is when we want to:
+        - extend Abstract classes,
+        - create instance of non-functional interface
+        - or we need reference to anonymous-self reference (lambda self points to enclosing instance).
 
 # 43: Prefer method references to lambdas
     If lambda gets longer consider refactor it to method especially when there are many arguments.
@@ -154,7 +156,27 @@ List<?> vs List – you can’t put any element other than null into List<?>, Li
 
 # 46: Prefer side-effect-free functions in streams
 
+# 47: Prefer Collection to Stream as a return type
+        Is easy to change from Collection to Stream and Steam is not supporting iteration directly
 
+# 48: Use caution when making streams parallel
+        - consider using Java 7 Fork-Join Package -> work stealing algorithm
+
+# 49: Check parameters for validity
+        - consider Objects.requireNonNull()
+
+# 50: Make defensive copies when needed
+        - don't use clone() for copying as it's non-final and can be overriden to expolit
+
+# 51: Design method signatures carefully
+
+# 52: Use overloading judiciously
+    - don't forget that overriding is resolved on runtime but overloading is resolved only once at compile time
+
+# 53: Use varargs judiciously
+    - consider using method(int firstArg, int... remainingArgs) form of varargs and be aware of performance penality
+
+# 54: Return empty collections or arrays, not nulls
 
 
 
