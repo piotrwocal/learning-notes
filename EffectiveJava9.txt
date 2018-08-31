@@ -178,6 +178,19 @@ List<?> vs List – you can’t put any element other than null into List<?>, Li
 
 # 54: Return empty collections or arrays, not nulls
 
+# 55: Return optionals judiciously
+    Optionals are similar in spirit to checked-exceptions, they force client to action.
+    One should never return an optional of boxed primitive type - there is OptionalInt etc.
+
+# 56: Write doc comments for all exposed API elements
+    - JavaDocs are rich, containing @implSpec, @index etc. tags. Consider using: {@literal xx} and {@code xx} where possible.
+
+# 57: Minimize scope of local variables
+
+# 58: Prefer 'for' over 'while' for initialization, especially for Iterator.
+    - consider implementing Iterable so client can use 'enhanced for' syntax
+
+
 
 
 
