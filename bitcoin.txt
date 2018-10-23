@@ -1,0 +1,28 @@
+
+Bitcoin and Cryptocurrency Technologies
+---------------------------------------
+
+Video: Cryptographic Hash Function
+	- collision-free property, nobody can find x and y such that: x!=y and H(x)=H(y)
+		=> hash as message digest: H(x)=H(y) => y=x
+	- hiding property, for H(x) there is no easy way to find x 
+
+	- commitment API, commit to a value, reveal it later
+		(com, key) := commit(msg)
+		match := verify(com,key,msg)
+
+		to seal msg: 
+			(com, key) := commit(msg) -- publish com
+		to open:
+			publish key, msg -- anyone can use verify() to check validity
+
+	    security properties:
+	    	hiding: given com infeasible to find msg
+	    	binding: infeasible to find msg != msg' that verify(commit(msg),msg') == true 
+
+	 - puzzle-friendly:
+	 	for every y, if k is chosen from distribution with high min-entorpy 
+	 	than is infeasible to find x that: H(k|x)=y
+
+ - Bitcoin uses SHA-256 which splits input into 512 message blocks and sends them in chain
+ 	 through function: hash1 = hash(iv, block1) than hash2 = hash( hash1, block2 ) etc. when iv is random
