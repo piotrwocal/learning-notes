@@ -1,8 +1,9 @@
 
-Bitcoin and Cryptocurrency Technologies
----------------------------------------
+>>> Bitcoin and Cryptocurrency Technologies <<<
 
+----------------------------------
 Video: Cryptographic Hash Function
+
 	- collision-free property, nobody can find x and y such that: x!=y and H(x)=H(y)
 		=> hash as message digest: H(x)=H(y) => y=x
 	- hiding property, for H(x) there is no easy way to find x 
@@ -26,3 +27,40 @@ Video: Cryptographic Hash Function
 
  - Bitcoin uses SHA-256 which splits input into 512 message blocks and sends them in chain
  	 through function: hash1 = hash(iv, block1) than hash2 = hash( hash1, block2 ) etc. when iv is random
+
+
+----------------------------------------
+Video: Hash Pointers and Data structures
+
+	- hash pointer: pointer to some information togehter with hash of the info
+
+	- we can build data structures using hash pointer instead of pointers like:
+		- block chain: single linked list with hash pointers, being tamper evident
+		- binary tree (Merkel tree) - easy way to prove that blocks belongs to structure showing block and path to it
+		- for sorted tree we can prove non-membership
+		- we can model all data with hash pointers as long as they don't have cycles
+
+
+-------------------------
+Video: Digital signatures		
+
+	- Signatures
+		- only you can sign but anyone can verify
+		- signature is tied to particular document and cannot be reused
+
+	- signatures API
+		(sk, pk) := generateKeys( keysize )
+		sig := sign(sk, message)
+		isValid := verify(pk, message, sig)
+
+	- requirements
+		verify(pk, message, sign(sk, message)) == true
+		one who knows pk and see signature can't produce valid signature of other messages
+
+	- we need good source of randomness
+	- we can sign hash pointer, in that way we effectively sign the whole structure like block-chain or merkel tree
+
+	- Bitcoin uses ECDSA (Eliptic Curve Digital Signature Algorithm)
+
+
+
