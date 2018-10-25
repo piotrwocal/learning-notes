@@ -63,4 +63,17 @@ Video: Digital signatures
 	- Bitcoin uses ECDSA (Eliptic Curve Digital Signature Algorithm)
 
 
+--------------------------------
+Video: Public Keys as Identities
 
+	- public key == an identity
+	- identity are called "addresses" in Bitcoin - decentralized, no central authority
+
+	- address is not directly connected to real-world identity but an observer can link adress activiy over time, inferences with real entity 
+
+
+------------------------------
+Video: A Simple Cryptocurrency
+
+	- double spending attach is one of main cryptocurrency problems	
+	- main problem: how to decentalize the currency
