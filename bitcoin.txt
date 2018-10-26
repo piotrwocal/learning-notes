@@ -77,3 +77,40 @@ Video: A Simple Cryptocurrency
 
 	- double spending attach is one of main cryptocurrency problems	
 	- main problem: how to decentalize the currency
+
+
+------------------------------------
+Programming assignment: Scrooge Coin
+
+
+----------------------------------
+Week 2
+---------------------------------
+Video: Centralization vs Decentralization
+
+
+----------------------------
+Video: Distributed Consensus
+
+	- key technical challenge of decentralized e-cash: distirbuted consensus or how to decentralize ScroogeCoin
+	- traditional motivation is reliability in distributed systems
+	- distributed key-value store: enables DNS, public key directory, stock trades and Altcoins( derivateve from Bitcoins)
+
+	- how consensus could work in Bitcoin, at any given time
+		- all nodes have a sequence of blocks of transactions they've reached consensus on 
+		- each node has a set of outstanding transactions it's heard about
+
+	- problems with Distributed Consensus (for Databases)
+		- Byzantine generals problem
+		- Fisher-Lynch-Paterson (deterministic nodes): consensus impossible with a single faulty node
+	vs 
+		- Paxos 
+
+	- what Bitcoin does differently to Database area:
+		- Bitcoin introduces incentives 
+		- embraces randomness
+
+
+
+
+
