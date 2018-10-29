@@ -93,7 +93,7 @@ Video: Centralization vs Decentralization
 Video: Distributed Consensus
 
 	- key technical challenge of decentralized e-cash: distirbuted consensus or how to decentralize ScroogeCoin
-	- traditional motivation is reliability in distributed systems
+	- traditional motivation is reliability in distributed ssystems
 	- distributed key-value store: enables DNS, public key directory, stock trades and Altcoins( derivateve from Bitcoins)
 
 	- how consensus could work in Bitcoin, at any given time
@@ -109,6 +109,31 @@ Video: Distributed Consensus
 	- what Bitcoin does differently to Database area:
 		- Bitcoin introduces incentives 
 		- embraces randomness
+
+
+--------------------------------------------------
+Video: Consensus without Identity: the Block Chain
+
+	- Bitcoin nodes does not have identities 
+		- Sybil attach
+		- pseudonomity is goal of Bitcoin
+
+	- Implicit consensus
+
+	- Consensus algorithm (simplified)
+		1. New transactions are broadcast to all nodes
+		2. Each node collects new transactions into a block
+		3. In  each round a RANDOM node gets to broadcast its block
+		4. Other nodes accept the block only if all transactions in it are valid (unspent, valid signatures)
+		5. Nodes express their acceptance of the block by including it's hash in the next block they create
+
+
+	- why it works ?
+		- honest nodes will extend the longest valid branch
+			-> double spend probability decreases exponentially with number of confirmations (by default Bitcoin uses 6 confirmations)
+		- protection against invalid tx is cryptographic but enfroced by consensus
+		- protection against double-spending is purely by consensus
+		- guarantee that tx in consensus branch is probabilistic
 
 
 
