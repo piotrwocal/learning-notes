@@ -172,10 +172,40 @@ Video: Incentives and Proof of Work
 			Other miners simply verify that H( nonce || prev_hash || tx || ... || tx ) < target
 
 
+------------------------------
+Video: Putting it all together
 
+	- Mining economics:
+		- if mining reward (block reward + tx fees) > hardware + electricity costs => profit
 
+	- complications
+		- fixed vs variable costs
+		- reward depends on global hash rate
 
+	- Recap:
+		- Identities
+		- Transactions
+		- P2P network
+		- Block chain & consensus
+		- hash puzzles & mining
 
+	- Bitcoin has threee types of consensus
+		- Value
+		- State
+		- Rules
+
+	- Bitcoin is bootstrapped:
+		- security of black chain -> value of currency -> health of mining ecosystem -> secur....
+
+	- What can "51% attacker" do ?
+		- steel coins from existing address ? 
+			-> no because even if attacker is able to generate longest consensus chain, this chain is invalid because
+			"stolen" tx is not authorized 
+		- Suppress some tx 
+			- from black chain  -> yes
+			- from P2P network  -> no, it's relatively clear that attack happens
+		- change the block reward -> no 
+		- destroy confidence in Bitcoin? -> yes, likely
 
 
 
