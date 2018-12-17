@@ -4,7 +4,7 @@ Notes:
 
     - index often cannot be used when combined with functions, even simple like lower(?), trim(?)
 
-    - not using paramized queries forces db to recompile query every time
+    - not using paramised queries forces db to recompile query every time
         but it's WAS  only way to impact query optimizer based on parameter values (before Postgresql 9.2)
 
     - LIKE expression works only for prefix cases 'abc%'
@@ -13,3 +13,6 @@ Notes:
     - consider index merge (two indexes combined) as it is faster than checking 2 indexes and doing bitmap scan
 
     - consider using partial index for very uneven value distribution
+
+    - query plan without predicate information (telling which index is used for access and which for later on filtering)
+       is very incomplete
