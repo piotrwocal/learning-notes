@@ -13,3 +13,11 @@ Notes:
     - consider index merge (two indexes combined) as it is faster than checking 2 indexes and doing bitmap scan
 
     - consider using partial index for very uneven value distribution
+
+    - nested loops works well for small left side but can be highly inefficient in case of wrong planner choosing
+        nested loop over hash-join, one option to force different query plan is to use CTE
+
+    - as hash-join right side is kept in memory selecting fewer columns may improve performance
+
+    - merge sort can be used when data are bigger and may not fit into memory, although merge-sort is initially
+        expensive because it have to preproces both sides and sort them
