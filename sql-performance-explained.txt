@@ -6,9 +6,11 @@ Notes:
 
     - not using paramised queries forces db to recompile query every time
         but it's WAS  only way to impact query optimizer based on parameter values (before Postgresql 9.2)
+      Currently: planning on prepared statement is done 5 times during query execution with actual parameter and if
+      query optimizer decides that generic plan is not more expensive than specific per params than use generic
 
     - LIKE expression works only for prefix cases 'abc%'
-        and Postgresql by default treat bind parameters to LIKE '%abc' effectively turning off index
+        and Postgres by default treat bind parameters to LIKE '%abc' effectively turning off index
 
     - consider index merge (two indexes combined) as it is faster than checking 2 indexes and doing bitmap scan
 
