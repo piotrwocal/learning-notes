@@ -4,15 +4,20 @@ Notes:
 
     - index often cannot be used when combined with functions, even simple like lower(?), trim(?)
 
-    - not using paramized queries forces db to recompile query every time
+    - not using paramised queries forces db to recompile query every time
         but it's WAS  only way to impact query optimizer based on parameter values (before Postgresql 9.2)
+      Currently: planning on prepared statement is done 5 times during query execution with actual parameter and if
+      query optimizer decides that generic plan is not more expensive than specific per params than use generic
 
     - LIKE expression works only for prefix cases 'abc%'
-        and Postgresql by default treat bind parameters to LIKE '%abc' effectively turning off index
+        and Postgres by default treat bind parameters to LIKE '%abc' effectively turning off index
 
     - consider index merge (two indexes combined) as it is faster than checking 2 indexes and doing bitmap scan
 
     - consider using partial index for very uneven value distribution
+
+    - query plan without predicate information (telling which index is used for access and which for later on filtering)
+       is very incomplete
 
     - nested loops works well for small left side but can be highly inefficient in case of wrong planner choosing
         nested loop over hash-join, one option to force different query plan is to use CTE
@@ -21,3 +26,11 @@ Notes:
 
     - merge sort can be used when data are bigger and may not fit into memory, although merge-sort is initially
         expensive because it have to preproces both sides and sort them
+
+    - consider using Window functions -
+        syntax window_function(arg1, arg2,..) OVER (PARTITION BY expression ORDER BY expression)
+        together with LAG/LEAD functions for 'relative' calculations
+
+    - statements with bind parameters cannot be explained with direct params, we have to prepare:
+        prepare stmt2( text ) as select * FROM ctpc_v01_00.channel where id = ?;
+        explain execute stmt2( '1' );
