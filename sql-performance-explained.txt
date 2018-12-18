@@ -16,3 +16,11 @@ Notes:
 
     - query plan without predicate information (telling which index is used for access and which for later on filtering)
        is very incomplete
+
+    - consider using Window functions -
+        syntax window_function(arg1, arg2,..) OVER (PARTITION BY expression ORDER BY expression)
+        together with LAG/LEAD functions for 'relative' calculations
+
+    - statements with bind parameters cannot be explained with direct params, we have to prepare:
+        prepare stmt2( text ) as select * FROM ctpc_v01_00.channel where id = ?;
+        explain execute stmt2( '1' );
