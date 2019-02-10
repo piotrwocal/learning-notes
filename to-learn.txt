@@ -1,0 +1,8 @@
+
+To learn:
+    CQRS
+    Event Sourcing
+    Domain Driven Design
+    Functional Reactive Programming
+    Microservices patterns, practices
+    AWS

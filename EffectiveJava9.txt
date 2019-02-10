@@ -1,8 +1,12 @@
 
 # 1: Static Factory Method instead of constructor
-	  Define single, named, point to return object that can be cached, subclassed or dynamically created. Classes without public constructor cannot be instantiated (which can be desirable behaviour). Pay attention that SFM can be difficult to find by programmers - as help use unified naming from(), valueOf(), getInstance(), type (like list(), set()) etc.
-Classes without public constructor cannot be instantiated (which can be desirable behaviour). Pay attention that SFM can be difficult to find by programmers - as help use unified naming from(), valueOf(), getInstance(), type (like list(), set()) etc.
-SFM is not identical as Factory Method by GoF which uses subclassing for abstracting object creation. Different to Builder  as SFM can have parameters. SFM can take part in service provider (see: java.util.ServiceLoader) or Bridge pattern. (Bridge pattern separates by two inheritance lines abstractions from implementation like:
+	  Define single, named, point to return object that can be cached, subclassed or dynamically created.
+Classes without public constructor cannot be instantiated (which can be desirable behaviour). Pay attention that
+SFM can be difficult to find by programmers - as help use unified naming from(), valueOf(), getInstance(),
+type (like list(), set()) etc. SFM is not identical as Factory Method by GoF which uses subclassing
+for abstracting object creation. Different to Builder as SFM can have parameters.
+SFM can take part in service provider (see: java.util.ServiceLoader) or Bridge pattern.
+(Bridge pattern separates by two inheritance lines abstractions from implementation like:
 Abstraction:   Shape > Circle,  Implementation: DrawingAPI > DrawingAPI1 > DrawingAPI2, where shape contains reference to implementation.
 
 # 2: Builder when faced with many constructor parameters
